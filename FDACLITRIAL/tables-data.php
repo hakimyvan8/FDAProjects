@@ -25,6 +25,16 @@ if ($conn) {
                     include("viewdata.php");
 
                 }
+                if(isset($_GET['blank'])){
+
+                  include("blank.php");
+
+              }
+                if(isset($_GET['users-profile'])){
+
+                  include("users-profile.php");
+
+              }
 ?>
 
 
@@ -70,57 +80,37 @@ if ($conn) {
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+ <!-- ======= Header ======= -->
+ <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="tables-data.php" class="logo d-flex align-items-center">
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <span class="d-none d-lg-block">FDA Clinical Trial Registry</span>
+<div class="d-flex align-items-center justify-content-between">
+  <a href="tables-data.php" class="logo d-flex align-items-center">
+    <!-- <img src="assets/img/logo.png" alt=""> -->
+    <span class="d-none d-lg-block">FDA CLINICAL TRIAL REGISTRY</span>
+  </a>
+  <i class="bi bi-list toggle-sidebar-btn"></i>
+</div><!-- End Logo -->
+
+<div class="search-bar">
+  <form class="search-form d-flex align-items-center" method="POST" action="#">
+    <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+    <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+  </form>
+</div><!-- End Search Bar -->
+
+<nav class="header-nav ms-auto">
+  <ul class="d-flex align-items-center">
+
+    <li class="nav-item d-block d-lg-none">
+      <a class="nav-link nav-icon search-bar-toggle " href="#">
+        <i class="bi bi-search"></i>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+    </li><!-- End Search Icon-->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+  </ul>
+</nav><!-- End Icons Navigation -->
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li><!-- End Search Icon-->
-
-    
-
-          <!-- <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number"></span>
-          </a> End Notification Icon -->
-    
-<!-- 
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-chat-left-text"></i>
-            <span class="badge bg-success badge-number"></span> -->
-          <!-- </a>End Messages Icon -->
-
-          
-
-          <!-- </ul>End Messages Dropdown Items -->
-
-        <!-- </li>End Messages Nav -->
-
-        <!-- <li class="nav-item dropdown pe-3"> -->
-
-          
-
-  </header><!-- End Header -->
+</header><!-- End Header -->
 
 
 
@@ -128,7 +118,7 @@ if ($conn) {
   <main id="main" class="main">
 
         <div class="pagetitle">
-          <h1>Data Tables</h1>
+          <h1> FDA Clinical Trial Data Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -162,17 +152,22 @@ if ($conn) {
 
     while($row_pro=mysqli_fetch_array($run_pro)){
 
-    $no = $row_pro['No'];
-
-    $Application = $row_pro['Application'];
-
-    $Title = $row_pro['Title'];
-
-    $TrialPhase = $row_pro['TrialPhase'];
-
-    $CurRegStat = $row_pro['CurRegStat'];
-
-    $CITS=$row_pro['CITS'];
+      $no = $row_pro['No'];
+      $Title = $row_pro['Title'];
+      $PI = $row_pro['PI'];
+      $TrialPhase = $row_pro['TrialPhase'];
+      $Notargetedparticipants = $row_pro['Notargetedparticipants'];
+      $Trialduration = $row_pro['Trialduration'];
+      $ClinicalTrial = $row_pro['ClinicalTrial'];
+      $InvestigationalProduct = $row_pro['InvestigationalProduct'];
+      $appno = $row_pro['Application'];
+      $typeofprod = $row_pro['TypeOfproduct'];
+      $name = $row_pro['Name'];
+      $CertRefNo= $row_pro['CertRefNo'];
+      $AWRDate= $row_pro['AWRDate'];
+      $DoCE= $row_pro['DoCE'];
+      $CITS= $row_pro['CITS'];
+      $CurRegStat = $row_pro['CurRegStat'];
 
     $i++;
 
@@ -185,7 +180,7 @@ if ($conn) {
         ?>
         <tr>
             <td><?php echo $no; ?></td>
-            <td><?php echo $Application; ?></td>
+            <td><?php echo $appno ; ?></td>
             <td><?php echo $Title; ?></td>
             <td><?php echo $TrialPhase; ?></td>
             <td>
@@ -229,10 +224,45 @@ if ($conn) {
             </td> -->
 
             <td>
-        <a href="tables-data.php?viewdata=<?php echo $no; ?>">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable<?php echo $no; ?>" data-id="<?php echo $no; ?>">
+  More
 
-        <button type="button" class="btn btn-outline-primary"> More </button>
-
+</button>
+<div class="modal fade" id="modalDialogScrollable<?php echo $no; ?>" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable" >
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Clinical Trial Profile</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <h5 class="modal-title">Clinical Trial Site</h5>
+                    <p class="small fst-normal"><?php echo  $ClinicalTrial; ?></p>
+                    <h5 class="card-title">Application Reference Number</h5>
+                    <p class="small fst-normal"><?php echo  $appno; ?></p>
+                    <h5 class="card-title">Principal Investigator</h5>
+                    <p class="small fst-normal"><?php echo  $PI; ?></p>
+                    <h5 class="card-title">Type of Product</h5>
+                    <p class="small fst-normal"><?php echo  $typeofprod; ?></p>
+                    <h5 class="card-title">Name of Sponsor</h5>
+                    <p class="small fst-normal"><?php echo  $name; ?></p>
+                    <h5 class="card-title">Certificate Reference Number</h5>
+                    <p class="small fst-normal"><?php echo  $CertRefNo; ?></p>
+                    <h5 class="card-title">FDA/Approval/Withdrawal/Rejection Date</h5>
+                    <p class="small fst-normal"><?php echo  $AWRDate; ?></p>
+                    <h5 class="card-title">Investigational Product (s)</h5>
+                    <p class="small fst-normal"><?php echo  $InvestigationalProduct; ?></p>
+                    <h5 class="card-title"># Targeted trial Participants</h5>
+                    <p class="small fst-normal"><?php echo  $Notargetedparticipants; ?></p>
+                    <h5 class="card-title">Date of Certificate Expiration</h5>
+                    <p class="small fst-normal"><?php echo  $DoCE; ?></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
     </a>
 
@@ -280,8 +310,8 @@ if ($conn) {
   <script src="assets/vendor/chart.js/chart.umd.js"></script>
   <script src="assets/vendor/echarts/echarts.min.js"></script>
   <script src="assets/vendor/quill/quill.min.js"></script>
-  <!-- <script src="assets/vendor/simple-datatables/simple-datatables.js"></script> -->
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <!-- <script src="assets/vendor/tinymce/tinymce.min.js"></script> -->
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
